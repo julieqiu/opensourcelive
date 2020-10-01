@@ -10,6 +10,10 @@ import (
 	"html/template"
 
 	"github.com/russross/blackfriday/v2"
+	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark/extension"
+	"github.com/yuin/goldmark/renderer/html"
+	"github.com/yuin/goldmark/text"
 )
 
 type Page struct {
@@ -61,4 +65,17 @@ func loadPage(title string) (*Page, error) {
 func renderBlackfriday(body []byte) template.HTML {
 	md := blackfriday.Run(body)
 	return template.HTML(md)
+}
+
+func renderMarkdown(input []byte) (template.HTML, error) {
+	md := goldmark.New(
+		goldmark.WithExtensions(extension.GFM, extension.Table),
+		goldmark.WithRendererOptions(html.WithUnsafe()))
+	reader := text.NewReader(input)
+	doc := md.Parser().Parse(reader)
+	var b strings.Builder
+	if err := md.Renderer().Render(&b, input, doc); err != nil {
+		return "", err
+	}
+	return template.HTML(b.String()), nil
 }
