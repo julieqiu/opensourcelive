@@ -8,10 +8,12 @@ import (
 	"strings"
 
 	"html/template"
+
+	"github.com/russross/blackfriday/v2"
 )
 
 type Page struct {
-	Body string
+	Body template.HTML
 }
 
 func main() {
@@ -48,5 +50,15 @@ func loadPage(title string) (*Page, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Page{Body: string(body)}, nil
+
+	b := renderBlackfriday(body)
+	if err != nil {
+		return nil, err
+	}
+	return &Page{Body: string(b)}, nil
+}
+
+func renderBlackfriday(body []byte) template.HTML {
+	md := blackfriday.Run(body)
+	return template.HTML(md)
 }
