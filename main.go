@@ -8,7 +8,7 @@ import (
 )
 
 type Page struct {
-	Body []byte
+	Body string
 }
 
 func main() {
@@ -26,5 +26,5 @@ func loadPage(title string) (*Page, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Page{Body: body}, nil
+	return &Page{Body: string(body)}, nil
 }
