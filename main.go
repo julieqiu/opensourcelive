@@ -59,7 +59,7 @@ func loadPage(title string) (*Page, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Page{Body: string(b)}, nil
+	return &Page{Body: b}, nil
 }
 
 func renderBlackfriday(body []byte) template.HTML {
