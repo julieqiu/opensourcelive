@@ -1,20 +1,24 @@
 package main
 
-import "io/ioutil"
-
-type Page struct {
-	Body string
-}
+import (
+	"fmt"
+	"io/ioutil"
+	"log"
+)
 
 func main() {
-	loadPage("static/turkeychili.md")
+	filename := "turkeychili.md"
+	s, err := loadPage(filename)
+	if err != nil {
+		log.Fatalf("unable to load page: %s", err)
+	}
+	fmt.Println(s)
 }
 
-func loadPage(title string) (*Page, error) {
-	filename := title + ".md"
+func loadPage(filename string) (string, error) {
 	body, err := ioutil.ReadFile(filename)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
-	return &Page{Body: string(body)}, nil
+	return string(body), nil
 }
