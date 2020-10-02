@@ -11,6 +11,7 @@ import (
 
 	"github.com/russross/blackfriday/v2"
 	"github.com/yuin/goldmark"
+	emoji "github.com/yuin/goldmark-emoji"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/renderer/html"
 	"github.com/yuin/goldmark/text"
@@ -55,7 +56,7 @@ func loadPage(title string) (*Page, error) {
 		return nil, err
 	}
 
-	b := renderBlackfriday(body)
+	b, err := renderMarkdown(body)
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +70,7 @@ func renderBlackfriday(body []byte) template.HTML {
 
 func renderMarkdown(input []byte) (template.HTML, error) {
 	md := goldmark.New(
-		goldmark.WithExtensions(extension.GFM, extension.Table),
+		goldmark.WithExtensions(extension.GFM, extension.Table, emoji.Emoji),
 		goldmark.WithRendererOptions(html.WithUnsafe()))
 	reader := text.NewReader(input)
 	doc := md.Parser().Parse(reader)
