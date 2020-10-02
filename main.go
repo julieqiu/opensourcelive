@@ -2,29 +2,27 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
 )
 
-type Page struct {
-	Body string
-}
-
 func main() {
 	http.HandleFunc("/", handler)
+
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+	io.WriteString(w, fmt.Sprintf("Hello! I love %s!", r.URL.Path[1:]))
 }
 
-func loadPage(title string) (*Page, error) {
+func loadPage(title string) (string, error) {
 	filename := title + ".md"
 	body, err := ioutil.ReadFile(filename)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
-	return &Page{Body: string(body)}, nil
+	return string(body), nil
 }
