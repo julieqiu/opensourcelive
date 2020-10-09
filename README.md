@@ -1,7 +1,5 @@
 # Google Open Source Live
 
-<a href="https://pkg.go.dev/github.com/julieqiu/opensourcelive"><img src="https://pkg.go.dev/badge/github.com/julieqiu/opensourcelive" alt="PkgGoDev"></a>
-
 This is the tutorial for `Level Up: Go Package Discovery and editor tooling`,
 presented by
 [Julie Qiu](https://twitter.com/jqiu25) and
