@@ -11,7 +11,6 @@ import (
 
 	"html/template"
 
-	"github.com/russross/blackfriday/v2"
 	"github.com/yuin/goldmark"
 	emoji "github.com/yuin/goldmark-emoji"
 	"github.com/yuin/goldmark/extension"
@@ -64,11 +63,6 @@ func loadPage(title string) (*Page, error) {
 		return nil, err
 	}
 	return &Page{Body: b}, nil
-}
-
-func renderBlackfriday(body []byte) template.HTML {
-	md := blackfriday.Run(body)
-	return template.HTML(md)
 }
 
 func renderMarkdown(input []byte) (template.HTML, error) {
