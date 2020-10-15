@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"path/filepath"
 	"strings"
 
 	"html/template"
@@ -53,7 +54,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func loadPage(title string) (*Page, error) {
 	filename := title + ".md"
-	body, err := ioutil.ReadFile(filename)
+	body, err := ioutil.ReadFile(filepath.Join("static", filename))
 	if err != nil {
 		return nil, err
 	}
